@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+
 import pickle
 import pandas as pd
 import uuid
@@ -40,20 +41,21 @@ def make_predictions():
 
 
 
-
-
 def new_dataframe(year, month):
     df, dicts = read_data(input_file)
     df['ride_id'] = f'{year:04d}/{month:02d}_' + df.index.astype('str')
     df_result = pd.DataFrame()
     df_result['ride_id'] = df['ride_id']
     df_result['prediction'] = make_predictions()
-    print(df_result.prediction.std())
+    print(f'The Standard Deviation of the predicted duration is {df_result.prediction.std()}')
+    print(f'The mean predicted duration for {year}/{month} is {df_result.prediction.mean()}')
     df_result.to_parquet(output_file, engine='pyarrow', compression=None, index=False)
+    print('saving data to aws s3 bucket')
     return output_file
 
 
 
+new_dataframe(2022, 2)
 
 
 

@@ -4,7 +4,6 @@ RUN pip install pipenv
 
 WORKDIR /app
 
-# RUN /app/model.bin
 
 COPY starter.py .
 
